@@ -1,2 +1,2 @@
 # Walkthroughs
-A repository to host examples and walkthroughs for compational chemistry and statistics.
+A repository to host examples and walkthroughs for computational chemistry and statistics.
