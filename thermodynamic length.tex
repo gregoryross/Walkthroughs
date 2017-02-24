@@ -1,0 +1,88 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=1cm,right=1cm,top=2cm,bottom=2cm]{geometry}
+\author{Gregory Ross}
+\title{Example application of thermodynamic length}
+\begin{document}
+
+\section{Introduction}
+What's the best way to space intermediates for NCMC or an alchemical free energy calculations, or mixture sampling in general? Say, over $\lambda$.
+
+Given some metric tensor $g_{ij}$, an infinitesimal length can be defined as 
+
+\begin{align}
+ds^2 = g_{11} dx_1^2 + g_{12} dx_1 dx_2 + g_{22} dx_2^2 + ...
+\end{align}
+
+With the total length given between the initial and final points $\mathbf{x}_i$ and $\mathbf{x}_f$, respectively, is given by
+
+\begin{align}
+L = \int_{\mathbf{x}_i}^{\mathbf{x}_f} ds
+\end{align}
+
+For probability distributions, an appropriate choice of metric tensor is the Fisher information metric
+
+\begin{align}
+g_{ij} = \int p(x|\lambda) \frac{\partial \ln (p(x|\lambda)}{\partial \lambda_i}\frac{\partial \ln (p(x|\lambda)}{\partial \lambda_j} dx
+\end{align}
+
+so that
+
+\begin{align}
+L = \int \sqrt{\sum_{i,j} g_{ij}dx_i dx_j}
+\end{align}
+
+\section{One dimension}
+\subsection{Mixture of Gaussians}
+Looking at a mixture of Gaussian distributions centered on zero
+\begin{align}
+p(x|\sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(\frac{-x^2}{2\sigma^2}\right)
+\end{align}
+
+Let's say we have two $\sigma$s we wish to sample between. We can place $N-2$ intermediate Guassians between the two end points, but how should they be optimally spaced to ensure maximal overlap over each other? In the notation about, it'll be easier if we choose $\sigma^2$ rather than $\sigma$ to be our $\lambda$.
+
+To evaluating $g_{ij}$, it's easiest to first compute
+
+\begin{align*}
+\frac{\partial \ln (p(x|\sigma)}{\partial \sigma^2} &= \frac{\partial}{\partial\sigma^2}\left[ -\frac{1}{2}\ln(2\pi\sigma^2) -\frac{x^2}{2\sigma}  \right] \\
+&= \frac{x^2}{\sigma^4} - \frac{1}{\sigma^2}
+\end{align*}
+
+So that
+
+\begin{align}
+\left(\frac{\partial \ln (p(x|\sigma)}{\partial \sigma^2}\right)^2 &= (\frac{x^2}{\sigma^4} - \frac{1}{\sigma^2})^2 \\
+&= \frac{x^4}{4\sigma^8} - \frac{x^2}{2\sigma^6} + \frac{1}{4\sigma^4}
+\end{align}
+
+The score is tricky to evaluate and involves knowing the moments of the Gaussian distribution. In any case, one finds that
+
+\begin{align}
+g_{\sigma} = \frac{1}{2\sigma^4}
+\end{align}
+
+The thermodynamic length is therefore given by
+
+\begin{align}
+L &= \int_{\sigma_i^2}^{\sigma_f^2} \sqrt{\frac{1}{2\sigma^4} (d\sigma^2)^2} \\
+&= \frac{1}{\sqrt{2}}\int_{\sigma_i^2}^{\sigma_f^2} \frac{1}{\sigma^2} d\sigma^2 \\
+&= \frac{1}{\sqrt{2}}\int_{\sigma_i}^{\sigma_f} \frac{1}{\sigma} d\sigma \\
+&= \frac{1}{\sqrt{2}}\ln\left(\frac{\sigma_f}{\sigma_i}\right)
+\end{align}
+
+If we have a total number of $N$ distributions, we want to space them at equal distances from each other, which means that each distribution has a distance $l = L/N$ from the previous.
+
+If $f(\sigma)$ is a function that maps $\sigma$ to a distance away from the distribution with $\sigma_i$ then
+\begin{align*}
+L &= f(\sigma) \\
+\implies \sigma_n &= f^{-1}\left(\frac{L}{n}\right), \quad \quad n=1,2,...,N
+\end{align*}
+
+is how we should choose $\sigma$.
+
+[graph with log spacing]
+
+\end{document}
