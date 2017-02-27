@@ -69,11 +69,11 @@ The thermodynamic length is therefore given by
 \begin{align}
 L &= \int_{\sigma_i^2}^{\sigma_f^2} \sqrt{\frac{1}{2\sigma^4} (d\sigma^2)^2} \\
 &= \frac{1}{\sqrt{2}}\int_{\sigma_i^2}^{\sigma_f^2} \frac{1}{\sigma^2} d\sigma^2 \\
-&= \frac{1}{\sqrt{2}}\int_{\sigma_i}^{\sigma_f} \frac{1}{\sigma} d\sigma \\
-&= \frac{1}{\sqrt{2}}\ln\left(\frac{\sigma_f}{\sigma_i}\right)
+&= \frac{1}{\sqrt{2}}\int_{\gamma_i}^{\gamma_f} \frac{1}{\gamma} d\gamma \\
+&= \sqrt{2}\ln\left(\frac{\sigma_f}{\sigma_i}\right),
 \end{align}
 
-If we have a total number of $N$ distributions, we want to space them at equal distances from each other, which means that each distribution has a distance $l = L/N$ from the previous.
+where the change of variables $\gamma=\sigma^2$ was used in the third line. If we have a total number of $N$ distributions, we want to space them at equal distances from each other, which means that each distribution has a distance $l = L/N$ from the previous.
 
 If $f(\sigma)$ is a function that maps $\sigma$ to a distance away from the distribution with $\sigma_i$ then
 \begin{align*}
